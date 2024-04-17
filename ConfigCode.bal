@@ -5,7 +5,7 @@ import big_billion_cars.configuration;
 
 @http:ServiceConfig {
     cors: {
-        allowOrigins: ["http://localhost:4200","http://10.175.1.71:4200"],
+        allowOrigins: ["http://localhost:4200","http://10.175.1.71:4200","https://d7eaf07c-fb05-4851-88da-2e5dfd0cd730-dev.e1-us-cdp-2.choreoapis.dev"],
         allowCredentials: false,
         allowHeaders: ["Content-Type","userId"],
         exposeHeaders: ["*"],
