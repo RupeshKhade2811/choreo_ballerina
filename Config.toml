@@ -1,5 +1,12 @@
-# USER="postgres"
-# PASSWORD="12345"
-# HOST="localhost"
-# PORT=5432
-# DATABASE="postgres"
+
+big_billion_cars.dbconnection.username = "postgres"
+big_billion_cars.dbconnection.password="12345"
+big_billion_cars.dbconnection.dbHost="localhost"
+big_billion_cars.dbconnection.port=5432
+big_billion_cars.dbconnection.database="postgres"
+
+big_billion_cars.dbconnection.acesKeyId="xxxxxxxxxxxxx"
+big_billion_cars.dbconnection.secretAcesKey="xxxxxxxxxxxxxxxxxx"
+
+big_billion_cars.dbconnection.mail="yudhistervijay@gmail.com"
+big_billion_cars.dbconnection.mailSmtpPassword="aarxzdxvixtaidzo"
