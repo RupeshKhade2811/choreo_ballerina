@@ -1,12 +1,12 @@
 
 big_billion_cars.dbconnection.username = "choreodbadmin"
-big_billion_cars.dbconnection.password="xxxxxxxxxxxx"
-big_billion_cars.dbconnection.dbHost="xxxxxxxxxxxxxxxxx"
+big_billion_cars.dbconnection.password="xxxx"
+big_billion_cars.dbconnection.dbHost="hwsrv-107667.hostwindsdns.com"
 big_billion_cars.dbconnection.port=5438
-big_billion_cars.dbconnection.database="wso2_choreo_db"
+big_billion_cars.dbconnection.database="wso2_db"
 
-big_billion_cars.dbconnection.acesKeyId="xxxxxxxxxxxxxxxxxxxxxxxxxx"
-big_billion_cars.dbconnection.secretAcesKey="xxxxxxxxxxxxxxxxxxxxxxxx"
+big_billion_cars.dbconnection.acesKeyId="xxxxxxxxxxxxxxx"
+big_billion_cars.dbconnection.secretAcesKey="xxxxxxxxxxx"
 
 big_billion_cars.dbconnection.mail="yudhistervijay@gmail.com"
-big_billion_cars.dbconnection.mailSmtpPassword="xxxxxxxxxxxxxxxx"
+big_billion_cars.dbconnection.mailSmtpPassword="xxxxxxxxxxxx"
