@@ -1,9 +1,9 @@
 
-big_billion_cars.dbconnection.username = "choreodbadmin"
-big_billion_cars.dbconnection.password="xxxx"
-big_billion_cars.dbconnection.dbHost="hwsrv-107667.hostwindsdns.com"
-big_billion_cars.dbconnection.port=5438
-big_billion_cars.dbconnection.database="wso2_db"
+big_billion_cars.dbconnection.username = "postgres"
+big_billion_cars.dbconnection.password="12345"
+big_billion_cars.dbconnection.dbHost="localhost"
+big_billion_cars.dbconnection.port=5432
+big_billion_cars.dbconnection.database="postgres"
 
 big_billion_cars.dbconnection.acesKeyId="xxxxxxxxxxxxxxx"
 big_billion_cars.dbconnection.secretAcesKey="xxxxxxxxxxx"
