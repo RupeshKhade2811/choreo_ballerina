@@ -16,11 +16,26 @@
     }
   } ],
   "paths" : {
-    "/moveToInv" : {
+    "/getInventoryCards" : {
       "post" : {
-        "operationId" : "postMovetoinv",
+        "operationId" : "postGetinventorycards",
         "parameters" : [ {
-          "name" : "appr_id",
+          "name" : "userId",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pageNumber",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "pageSize",
           "in" : "query",
           "required" : true,
           "schema" : {
@@ -32,9 +47,60 @@
           "201" : {
             "description" : "Created",
             "content" : {
-              "text/plain" : {
+              "application/json" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/invntryCards"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorPayload"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getSearchFactory" : {
+      "post" : {
+        "operationId" : "postGetsearchfactory",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "header",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pageNumber",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/srchFtryCards"
                 }
               }
             }
@@ -55,6 +121,106 @@
   },
   "components" : {
     "schemas" : {
+      "AppraisalDto" : {
+        "required" : [ "appraisedValue", "engineType", "id", "isVehicleFav", "transmissionType", "vehicleMake", "vehicleMileage", "vehicleModel", "vehiclePic1", "vehiclePic2", "vehiclePic3", "vehiclePic4", "vehicleSeries", "vehicleYear", "vinNumber" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "clientFirstName" : {
+            "type" : "string"
+          },
+          "clientLastName" : {
+            "type" : "string"
+          },
+          "clientPhNum" : {
+            "type" : "string"
+          },
+          "vinNumber" : {
+            "type" : "string"
+          },
+          "vehicleYear" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "vehicleMake" : {
+            "type" : "string"
+          },
+          "vehicleModel" : {
+            "type" : "string"
+          },
+          "vehicleSeries" : {
+            "type" : "string"
+          },
+          "vehicleInterior" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "vehicleExtColor" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "user_id" : {
+            "type" : "string"
+          },
+          "is_active" : {
+            "type" : "boolean"
+          },
+          "vehiclePic1" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "vehiclePic2" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "vehiclePic3" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "vehiclePic4" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "invntrySts" : {
+            "type" : "string"
+          },
+          "soldOut" : {
+            "type" : "boolean"
+          },
+          "buyerUser_id" : {
+            "type" : "string"
+          },
+          "appraisedValue" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "createdBy" : {
+            "type" : "string"
+          },
+          "createdOn" : {
+            "$ref" : "#/components/schemas/Utc"
+          },
+          "engineType" : {
+            "type" : "string"
+          },
+          "vehicleMileage" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "transmissionType" : {
+            "type" : "string"
+          },
+          "isVehicleFav" : {
+            "type" : "boolean"
+          },
+          "invMovedOn" : {
+            "$ref" : "#/components/schemas/Utc"
+          }
+        }
+      },
       "ErrorPayload" : {
         "type" : "object",
         "properties" : {
@@ -82,6 +248,175 @@
             "type" : "integer",
             "description" : "Relevant HTTP status code",
             "format" : "int32"
+          }
+        }
+      },
+      "Utc" : {
+        "type" : "array",
+        "items" : {
+          "oneOf" : [ {
+            "type" : "integer",
+            "format" : "int64"
+          }, {
+            "type" : "number",
+            "format" : "double"
+          } ]
+        }
+      },
+      "srchFtryCards" : {
+        "required" : [ "cards", "code", "message", "status", "totalPages", "totalRecords" ],
+        "type" : "object",
+        "properties" : {
+          "cards" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AppraisalDto"
+            }
+          },
+          "code" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "boolean"
+          },
+          "totalRecords" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "Appraisal" : {
+        "required" : [ "appraisedValue", "engineType", "transmissionType", "vehicleMake", "vehicleMileage", "vehicleModel", "vehiclePic1", "vehiclePic2", "vehiclePic3", "vehiclePic4", "vehicleSeries", "vehicleYear", "vinNumber" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "clientFirstName" : {
+            "type" : "string"
+          },
+          "clientLastName" : {
+            "type" : "string"
+          },
+          "clientPhNum" : {
+            "type" : "string"
+          },
+          "vinNumber" : {
+            "type" : "string"
+          },
+          "vehicleYear" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "vehicleMake" : {
+            "type" : "string"
+          },
+          "vehicleModel" : {
+            "type" : "string"
+          },
+          "vehicleSeries" : {
+            "type" : "string"
+          },
+          "vehicleInterior" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "vehicleExtColor" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "user_id" : {
+            "type" : "string"
+          },
+          "is_active" : {
+            "type" : "boolean"
+          },
+          "vehiclePic1" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "vehiclePic2" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "vehiclePic3" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "vehiclePic4" : {
+            "type" : "string",
+            "nullable" : true
+          },
+          "invntrySts" : {
+            "type" : "string"
+          },
+          "soldOut" : {
+            "type" : "boolean"
+          },
+          "buyerUser_id" : {
+            "type" : "string"
+          },
+          "appraisedValue" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "createdBy" : {
+            "type" : "string"
+          },
+          "createdOn" : {
+            "$ref" : "#/components/schemas/Utc"
+          },
+          "engineType" : {
+            "type" : "string"
+          },
+          "vehicleMileage" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "transmissionType" : {
+            "type" : "string"
+          },
+          "invMovedOn" : {
+            "$ref" : "#/components/schemas/Utc"
+          }
+        }
+      },
+      "invntryCards" : {
+        "required" : [ "cards", "code", "message", "status", "totalPages", "totalRecords" ],
+        "type" : "object",
+        "properties" : {
+          "cards" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Appraisal"
+            }
+          },
+          "code" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "boolean"
+          },
+          "totalRecords" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "totalPages" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       }

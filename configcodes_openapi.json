@@ -1,0 +1,164 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Configcodes",
+    "version" : "0.1.0"
+  },
+  "servers" : [ {
+    "url" : "{server}:{port}/configcodes",
+    "variables" : {
+      "server" : {
+        "default" : "http://localhost"
+      },
+      "port" : {
+        "default" : "8080"
+      }
+    }
+  } ],
+  "paths" : {
+    "/addConfig" : {
+      "post" : {
+        "operationId" : "postAddconfig",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ConfigCode"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int64"
+                }
+              }
+            }
+          },
+          "202" : {
+            "description" : "Accepted"
+          },
+          "400" : {
+            "description" : "BadRequest"
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorPayload"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dropDowns" : {
+      "post" : {
+        "operationId" : "postDropdowns",
+        "responses" : {
+          "201" : {
+            "description" : "Created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DropDown"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorPayload"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ErrorPayload" : {
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "type" : "string",
+            "description" : "Reason phrase"
+          },
+          "path" : {
+            "type" : "string",
+            "description" : "Request path"
+          },
+          "method" : {
+            "type" : "string",
+            "description" : "Method type of the request"
+          },
+          "message" : {
+            "type" : "string",
+            "description" : "Error message"
+          },
+          "timestamp" : {
+            "type" : "string",
+            "description" : "Timestamp of the error"
+          },
+          "status" : {
+            "type" : "integer",
+            "description" : "Relevant HTTP status code",
+            "format" : "int32"
+          }
+        }
+      },
+      "ConfigCode" : {
+        "required" : [ "configGroup", "configType", "longCode" ],
+        "type" : "object",
+        "properties" : {
+          "config_id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "configType" : {
+            "type" : "string"
+          },
+          "configGroup" : {
+            "type" : "string"
+          },
+          "longCode" : {
+            "type" : "string"
+          },
+          "is_active" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "DropDown" : {
+        "required" : [ "vehicleExtrColor", "vehicleIntrColor" ],
+        "type" : "object",
+        "properties" : {
+          "vehicleExtrColor" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ConfigCode"
+            }
+          },
+          "vehicleIntrColor" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ConfigCode"
+            }
+          }
+        }
+      }
+    }
+  }
+}
