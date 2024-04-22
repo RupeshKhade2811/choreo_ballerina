@@ -81,7 +81,7 @@ public isolated function uploadImage(http:Request request) returns model:Respons
 // }
 
 
-public isolated function downloadImage(string imageName) returns byte[]|error {
+public isolated function downloadImage(string imageName) returns byte[]|byte[]?|error {
     s3:ConnectionConfig amazonS3Config = {
    accessKeyId: dbconnection:accessKeyId,
     secretAccessKey: dbconnection:secretAccessKey,
@@ -92,30 +92,67 @@ public isolated function downloadImage(string imageName) returns byte[]|error {
     int? byteArraySize = 1024;
 
      stream<byte[], io:Error?>|error getObjectResponse = amazonS3Client->getObject(bucketName, imageName, (), byteArraySize);
+     
+     if (getObjectResponse is stream<byte[], io:Error?>) {
+        error? err = getObjectResponse.forEach(isolated function(byte[] res) {
+            do {
+	            string tmpFile = check file:createTemp(prefix = "myTempFile");
+                error? writeRes = io:fileWriteBytes(tmpFile+".jpg", res, io:APPEND);
+            } on fail var e {
+            	io:println("Error writing to temporary file:", e.toString());
+            }
 
-        if (getObjectResponse is stream<byte[], io:Error?>) {
-            error? err = getObjectResponse.forEach(isolated function(byte[] res) {
-                                            // error? writeRes = io:fileWriteBytes("/files/download.jpg", res, io:APPEND);
-                                            
-                                                    do {	           	            
-                                                        string tmpFile = check file:createTemp();                                                                     
-                                                        error? writeRes = io:fileWriteBytes(tmpFile+"/download.jpg", res, io:APPEND);                                                       
-                                                                     
-                                                    } on fail var e {
-                                                        io:println("Error writing to temporary file:", e.toString());
-                                                    }                                                  
-                                        });
-                                    } else {
-                                        log:printError("Error: " + getObjectResponse.toString());
-                                    }        
+    
+        });
+    } else {
+        log:printError("Error: " + getObjectResponse.toString());
+    }
 
-                // check file:remove("/files/download.jpg");
-                string tmpFile = check file:createTemp();
-                string imagePath = tmpFile;
-                byte[] bytes = check io:fileReadBytes(imagePath);  
-                return bytes;         
+    string tmpFile = check file:createTemp();
+    string imagePath = tmpFile;
+    byte[] bytes = check io:fileReadBytes(imagePath);
 
+    check file:remove(tmpFile+"imageName.jpg");
+
+    return bytes;
 }
+
+
+// public isolated function downloadImage(string imageName) returns byte[]|error {
+//     s3:ConnectionConfig amazonS3Config = {
+//    accessKeyId: dbconnection:accessKeyId,
+//     secretAccessKey: dbconnection:secretAccessKey,
+//     region: dbconnection:region
+//     };
+//     s3:Client amazonS3Client  =check new(amazonS3Config);
+//     string bucketName = "bigbillioncars/images";
+//     int? byteArraySize = 1024;
+
+//      stream<byte[], io:Error?>|error getObjectResponse = amazonS3Client->getObject(bucketName, imageName, (), byteArraySize);
+
+//         if (getObjectResponse is stream<byte[], io:Error?>) {
+//             error? err = getObjectResponse.forEach(isolated function(byte[] res) {
+//             // error? writeRes = io:fileWriteBytes("/files/download.jpg", res, io:APPEND);
+                                            
+//                    do {	           	            
+//                         string tmpFile = check file:createTemp();                                                                     
+//                         error? writeRes = io:fileWriteBytes(tmpFile+"/download.jpg", res, io:APPEND);                                                       
+                                                
+//                     } on fail var e {
+//                          io:println("Error writing to temporary file:", e.toString());
+//                                                     }                                                  
+//                      });
+//                 } else {
+//                    log:printError("Error: " + getObjectResponse.toString());
+//                  }        
+
+//                 // check file:remove("/files/download.jpg");
+//                 string tmpFile = check file:createTemp();
+//                 string imagePath = tmpFile;
+//                 byte[] bytes = check io:fileReadBytes(imagePath);  
+//                 return bytes;         
+
+// }
 
 
 
