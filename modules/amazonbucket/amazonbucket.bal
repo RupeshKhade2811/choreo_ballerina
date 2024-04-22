@@ -94,7 +94,7 @@ public isolated function downloadImage(string imageName) returns byte[]|byte[]?|
      
      if (getObjectResponse is stream<byte[], io:Error?>) {
         error? err = getObjectResponse.forEach(isolated function(byte[] res) {
-            error? writeRes = io:fileWriteBytes("/temp/download.jpg", res, io:APPEND);
+            error? writeRes = io:fileWriteBytes("/files/download.jpg", res, io:APPEND);
         
 
         });
@@ -102,11 +102,11 @@ public isolated function downloadImage(string imageName) returns byte[]|byte[]?|
         log:printError("Error: " + getObjectResponse.toString());
     }
 
-    string imageFolder="/temp/";
+    string imageFolder="/files/";
     string imagePath = imageFolder+ "download.jpg";
     byte[] bytes = check io:fileReadBytes(imagePath);
 
-    check file:remove("/temp/download.jpg");
+    check file:remove("/files/download.jpg");
     return bytes;
 }
 
