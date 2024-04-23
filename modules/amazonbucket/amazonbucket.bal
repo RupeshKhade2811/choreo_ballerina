@@ -25,9 +25,9 @@ public isolated function uploadImage(http:Request request) returns model:Respons
     string uuid4 = uuid:createType4AsString();
     stream<byte[], io:Error?> streamer = check request.getByteStream();
 
-    check io:fileWriteBlocksFromStream("./files/"+"upload.jpg", streamer);
+    check io:fileWriteBlocksFromStream("/tmp/"+"upload.jpg", streamer);
 
-    string imageFolder="./files/";
+    string imageFolder="/tmp/";
     string imagePath = imageFolder+ "upload.jpg";
     byte[] bytes = check io:fileReadBytes(imagePath);
 
@@ -35,7 +35,7 @@ public isolated function uploadImage(http:Request request) returns model:Respons
     error? uploadError = amazonS3Client->createObject(bucketName, uuid4+".jpg", bytes, cannedACL);
 
     check streamer.close();
-    check file:remove("./files/upload.jpg");
+    check file:remove("/tmp/upload.jpg");
 
     if (uploadError is error) {
         io:println("Error uploading image: " + uploadError.message());
