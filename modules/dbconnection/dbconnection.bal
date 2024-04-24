@@ -19,7 +19,7 @@ public final postgresql:Client dbClient =
                                check new (host=dbHost, username = username, password=password, port=port, database=database);
 
 
-public final string imageFolder = "./files/";
+public final string imageFolder = "/tmp/";
 
 public final string accessKeyId = acesKeyId;
 public final string secretAccessKey = secretAcesKey;
