@@ -14,8 +14,8 @@ import ballerina/http;
 }
 
 service /searchFactory on httpl {
-    isolated resource function post buyCar(int appr_id,@http:Header string buyerUser_id) returns model:Response|error {
-        string|error buyMsg = searchFactory:vehicleBuy(appr_id, buyerUser_id);
+    isolated resource function post buyCar(int appr_id,@http:Header string userId) returns model:Response|error {
+        string|error buyMsg = searchFactory:vehicleBuy(appr_id, userId);
         model:Response resp = {message:check buyMsg, code:200, status:true};
          return resp;
     }
