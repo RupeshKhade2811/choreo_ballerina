@@ -60,7 +60,8 @@ service /user on httpl{
     }
 
      isolated resource function get downloadImage(string imageName) returns byte[]|error? {
-        return model:downloadFile(imageName);
+        // return model:downloadFile(imageName);
+        return amazonbucket:downloadImage(imageName);
 
     }
     
