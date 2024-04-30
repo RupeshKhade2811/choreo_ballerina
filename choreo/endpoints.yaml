@@ -32,3 +32,20 @@ endpoints:
   # +optional Context (base path) of the API that is exposed via this endpoint.
   # This is mandatory if the endpoint type is set to REST or GraphQL.
   context: openapi.yaml
+
+
+
+
+  outbound:
+    serviceReferences:
+    - name: choreo:///massil2016/sample-project2/xrxesc/d709e/v1/ORGANIZATION
+      connectionConfig: 01ef06f0-75cc-10fe-b392-5ab8df61ac58
+      env:
+      - from: ServiceURL
+        to: <YOUR_ENV_VARIABLE_NAME_HERE>
+      - from: ConsumerKey
+        to: <YOUR_ENV_VARIABLE_NAME_HERE>
+      - from: ConsumerSecret
+        to: <YOUR_ENV_VARIABLE_NAME_HERE>
+      - from: TokenURL
+        to: <YOUR_ENV_VARIABLE_NAME_HERE>
